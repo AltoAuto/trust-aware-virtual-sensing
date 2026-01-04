@@ -27,7 +27,11 @@ This project uses the **LBNL Building 59** dataset (Dryad, **DOI: 10.7941/D1N33Q
 - `Building_59.zip` — cleaned time-series CSVs + Brick model (`.ttl`) + metadata JSON
 - `data_description_table_3year_clean_data.xlsx` — per-point catalog (file/column descriptions, units, missingness, availability)
 - `metadata_Dryad_Bldg59.docx` and `README_Dryad_Bldg59.txt` — dataset notes and structure :contentReference[oaicite:2]{index=2}
-
+### Download
+1) Download `Building_59.zip` from Dryad [https://datadryad.org/dataset/doi:10.7941/D1N33Q]
+2) Unzip into `Building_59`
+3) Run:
+   python src/build_layer0.py
 
 ## Roadmap (Layers)
 - Layer 0 — point contract: map Brick points → (file, time_col, value_col) and export a canonical table
@@ -44,6 +48,7 @@ This project uses the **LBNL Building 59** dataset (Dryad, **DOI: 10.7941/D1N33Q
 - Layer 3 estimates: G(t) with uncertainty bands
 - Layer 4 results: CO₂ constraint satisfaction vs energy proxy + baseline comparisons
 
+ 
 ## Citation
 If you use the dataset, please cite the Dryad dataset record:
 
