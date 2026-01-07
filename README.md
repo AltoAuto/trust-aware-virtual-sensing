@@ -50,13 +50,17 @@ This project uses the **LBNL Building 59** dataset (Dryad, **DOI: 10.7941/D1N33Q
 
  
 ## Citation
-If you use the dataset, please cite the Dryad dataset record:
+If you use the **Building 59 dataset**, please cite the Dryad dataset record:
 
-Hong, Tianzhen; Luo, Na; Blum, David; Wang, Zhe (2022).
-*A three-year building operational performance dataset for informing energy efficiency* .
+Hong, Tianzhen; Luo, Na; Blum, David; Wang, Zhe (2022).  
+*A three-year building operational performance dataset for informing energy efficiency* [Dataset]. Dryad.  
+**DOI: 10.7941/D1N33Q**
 
 If you reference the dataset description / methodology, also cite the companion data descriptor paper:
 
-Luo, N., Wang, Z., Blum, D., et al. (2022).
-*A three-year dataset supporting research on building energy management and occupancy analytics*.
-Scientific Data, 9, 156. **DOI: 10.1038/s41597-022-01257-x**.
+Luo, N., Wang, Z., Blum, D., et al. (2022).  
+*A three-year dataset supporting research on building energy management and occupancy analytics*.  
+*Scientific Data*, 9, 156. **DOI: 10.1038/s41597-022-01257-x**
+
+BibTeX entries are provided in [`CITATION.bib`](./CITATION.bib).
+
