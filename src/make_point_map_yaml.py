@@ -24,10 +24,10 @@ from rdflib.namespace import RDF
 # =========================
 # EDIT THESE SETTINGS
 # =========================
-DATA_DIR = Path(r"D:\Trust-Aware Virtual Sensing and Supervisory Control for Smart Buildings\doi_10_7941_D1N33Q__v20220202\Building_59")
+DATA_DIR = Path(r"D:\Trust-Aware Virtual Sensing and Supervisory Control for Smart Buildings\Building_59_dataset\Building_59")
 TTL_PATH  = DATA_DIR / "Bldg59_w_occ Brick model.ttl"
 
-EXCEL_DESC = Path(r"D:\Trust-Aware Virtual Sensing and Supervisory Control for Smart Buildings\doi_10_7941_D1N33Q__v20220202\data_description_table_3year_clean_data.xlsx")
+EXCEL_DESC = Path(r"D:\Trust-Aware Virtual Sensing and Supervisory Control for Smart Buildings\Building_59_dataset\data_description_table_3year_clean_data.xlsx")
 
 ZONE_NAME  = "zone_062"
 TIMEZONE   = "America/Los_Angeles"

@@ -7,7 +7,7 @@ import yaml
 # ==========================
 # EDIT THESE 3 PATHS ONLY
 # ==========================
-DATA_DIR = Path(r"D:\Trust-Aware Virtual Sensing and Supervisory Control for Smart Buildings\doi_10_7941_D1N33Q__v20220202\Building_59\Bldg59_clean data")
+DATA_DIR = Path(r"D:\Trust-Aware Virtual Sensing and Supervisory Control for Smart Buildings\Building_59_dataset\Building_59\Bldg59_clean data")
 YAML_PATH = Path(r"D:\Trust-Aware Virtual Sensing and Supervisory Control for Smart Buildings\make_point_map\point_contract.yaml")
 OUT_DIR = Path(r"D:\Trust-Aware Virtual Sensing and Supervisory Control for Smart Buildings\make_point_map")
 # ==========================
@@ -49,6 +49,37 @@ def _auto_percent_to_frac(s: pd.Series) -> pd.Series:
     if 1.5 < q95 <= 110.0:
         return s / 100.0
     return s
+
+def _apply_convert(s: pd.Series, convert: str | None) -> pd.Series:
+    """
+    Apply a single conversion rule to a numeric Series.
+
+    Supported (from your table):
+      - F_to_C
+      - percent_to_frac
+      - '' / None  -> no-op
+
+    Notes:
+      - CFM->CFM, psi->psi, ppm->ppm are no-ops (convert empty)
+      - If s contains non-numeric values, you should coerce before calling this.
+    """
+    rule = (convert or "").strip()
+
+    if rule == "" or rule == "/":
+        return s
+
+    if rule == "F_to_C":
+        # (°F - 32) * 5/9
+        return (s - 32.0) * (5.0 / 9.0)
+
+    if rule == "percent_to_frac":
+        # 0–100 (%) -> 0–1 (frac)
+        return s / 100.0
+
+    # extend here if needed.
+
+    # For safety, do not silently change units for unknown rules:
+    raise ValueError(f"Unknown convert rule: '{rule}'")
 
 
 def _export_layer0_contract_excel(
@@ -179,6 +210,7 @@ def build_layer0():
     # Load each signal
     series_list = []
     used = []
+
     for canon_name, spec in canon_specs.items():
         file = spec["file"]
         time_col = spec.get("time_col", "timestamp")
@@ -189,25 +221,19 @@ def build_layer0():
             print(f"[WARN] Missing file for {canon_name}: {csv_path}")
             continue
 
+        # load raw
         s = _load_one_series(csv_path, time_col, value_col, tz)
         s.name = canon_name
 
-        # Unit conversion hints (your enriched YAML may specify these)
-        unit = str(spec.get("unit", ""))
-        convert = str(spec.get("convert", ""))
-
-        # Keep your simple percent handling
-        if unit == "percent" and convert in ("x/100", "x/100.0", "percent_to_frac"):
-            s = s / 100.0
-        elif unit in ("percent_or_fraction", "") and ("damper" in canon_name.lower() or "pct" in str(value_col).lower()):
-            s = _auto_percent_to_frac(s)
-
-        # Apply sign if YAML provides it (default 1)
+        # apply sign convention (default +1)
         sign = spec.get("sign", 1)
         try:
             s = float(sign) * s
         except Exception:
             pass
+
+        # apply unit conversion (canonical)
+        s = _apply_convert(s, spec.get("convert", ""))
 
         series_list.append(s)
         used.append(canon_name)
